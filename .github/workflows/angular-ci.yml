@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,26 +20,33 @@ jobs:
 
       - name: Cache node_modules
         uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules
         with:
-          # chemin du dossier de cache et clé de cache
           path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-node-
 
       - name: Install Dependencies
-        run: npm ci
+        run: |
+          cd projet-angular
+          npm ci
 
       - name: Run Linter
-        run: npx ng lint
+        run: |
+          cd projet-angular
+          npx ng lint
 
       - name: Run Prettier Check
-        run: npx prettier --check .
+        run: |
+          cd projet-angular
+          npx prettier --check .
 
       - name: Run Tests
-        run: npx ng test --watch=false --browsers=ChromeHeadlessCI --code-coverage
+        run: |
+          cd projet-angular
+          npx ng test --watch=false --browsers=ChromeHeadlessCI --code-coverage
 
       - name: Build Project
-        run: npx ng build --prod --aot
+        run: |
+          cd projet-angular
+          npx ng build --prod --aot
