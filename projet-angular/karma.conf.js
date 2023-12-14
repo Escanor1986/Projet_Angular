@@ -7,7 +7,6 @@ module.exports = function (config) {
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage'),
-      require('@angular/cli/plugins/karma'),
     ],
     client: {
       clearContext: false, // leave Jasmine Spec Runner output visible in browser
@@ -16,9 +15,6 @@ module.exports = function (config) {
       dir: require('path').join(__dirname, './coverage/projet-angular'),
       subdir: '.',
       reporters: [{ type: 'html' }, { type: 'text-summary' }],
-    },
-    angularCli: {
-      environment: 'dev',
     },
     reporters: ['progress', 'kjhtml'],
     port: 9876,
